@@ -23,7 +23,7 @@
 </body>
 
 <script>
-  var spread = 3
+  var spread = 3;
   // make data
   var numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
 
@@ -58,7 +58,7 @@
     // UPDATE
     // Update old elements as needed.
     shapes.transition(t)
-          .attr("color", "#D4D3D3")
+          .attr("color", "#a6a6a6")
           .attrTween("position", function(d, i){
               var j = this.getAttribute("position"),
                   k = this.getAttribute("position").y,
@@ -75,11 +75,11 @@
               height: 1,
               width: 1,
               opacity: 0.01,
-              color: "#505050"
+              color: "#404040"
             })
           .transition(t)
             .attrs({
-                opacity: .9,
+                opacity: 1,
                 height: function(d) {return map(d, .1, 5)}
               })
             .attrTween("position", function(d, i){

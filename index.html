@@ -27,6 +27,7 @@
   var spread = 3;
   // make data
   var numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25];
+  var sample;
 
   var scene = d3.select("a-scene");
 
@@ -59,7 +60,7 @@
     // Update old elements as needed.
     shapes  .transition(t)
           .attr("color", function(d, i) {
-              var n = numbers.length;
+              var n = sample.length;
               return d3.interpolateViridis(map(i, 1, n, 0, 1));
             })
           .attrTween("position", function(d, i) {
@@ -92,7 +93,7 @@
   update(numbers)
 
   d3.interval(function() {
-        var sample = d3.shuffle(numbers).slice(0, Math.floor(Math.random()*25))
+        sample = d3.shuffle(numbers).slice(0, Math.floor(Math.random()*25))
         //.sort(function(a, b) {return a - b});
         update(sample);
     }, 10000);

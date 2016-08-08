@@ -83,7 +83,7 @@
             .attrTween("position", function(d, i){
                 var u = spread * Math.ceil((i+1)/5);
                 var v = spread * (i % 5);
-                var h = this.getAttrbute("height");
+                var h = this.getAttribute("height");
                 return d3.interpolateObject({x:u, y:d, z:v},{x:u, y:h/2, z:v})
               });
     }

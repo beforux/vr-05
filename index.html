@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>VR-04</title>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/d3-selection-multi.v0.4.min.js"></script>
+  <script src="https://aframe.io/releases/0.2.0/aframe.min.js"></script>
+  <script src="https://rawgit.com/ngokevin/aframe-text-component/master/dist/aframe-text-component.min.js"></script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0; }
+  </style>
+</head>
+
+<body>
+  <a-scene>
+    <a-assets>
+    <!--  <a-asset-item id="house1" src="resources/house-mesh-1.obj"></a-asset-item>
+      <a-asset-item id="house3" src="resources/house-mesh-3.obj"></a-asset-item>-->
+    </a-assets>
+    <a-sky color="black" radius="1000"></a-sky>
+    <a-plane color="grey" width="100" height="1" position="15 0 0" rotation="-90 0 0"></a-plane>
+    <a-entity id="label" text="text: Testing ..." material="color: white" position="15 0 -10" look-at=#camera></a-entity>
+    <a-light type="directional" color="#FFF" intensity="0.45" position="4 2 1"></a-light>
+    <a-light type="ambient" color="#A8A8A8"></a-light>
+    <a-camera id="camera" near=".5" far="4000" position="265 350 250" fov="3"
+              rotation="-45 45 0" wasd-controls-enabled="false"
+              look-controls-enabled="false"></a-camera>
+    <a-cursor color="#2E3A87">
+  </a-scene>
+</body>
+
+<script>
+  // data
+  var numbers = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15];
+
+  var scene = d3.select("a-scene");
+
+  function update(data) {
+    var t = d3.transition()
+        .duration(1500);
+
+    // DATA JOIN
+    // Join new data with old emements, if any
+    var shapes = scene.selectAll("a-box").data(data, function(d) { return d; });
+
+    // EXIT
+    // Remove old elements as needed.
+    shapes.exit()
+          .attr("class", "exit")
+        .transition(t)
+          .attrs({
+            height: function(d, i) {return .5},
+            opacity: 0.01,
+            color: "red"
+            })
+          .attrTween("position", function(d, i){
+            return function(t) {return (i*2) + " " + -d*(t) + " 0"}})
+          .remove();
+
+    // UPDATE
+    // Update old elements as needed.
+    shapes.attr("class", "update")
+        .attrs({
+          opacity: 1,
+          color: "white"
+          })
+        .transition(t)
+          .attrTween("position", function(d, i){
+            var j = this.getAttribute("position");
+            return d3.interpolateObject(j,{x:i*2, y:0, z:0})});
+
+    // ENTER
+    // Create new elements as needed
+    shapes.enter().append("a-box")
+          .attrs({
+              class: "enter",
+              depth: 1,
+              height: function(d) {return d/2},
+              width: 1,
+              opacity: 0.01,
+              color: "yellow"
+            })
+          .transition(t)
+            .attr("opacity", 1)
+            .attrTween("position", function(d, i){
+              return function(t) {return (i*2) + " " + d*(1-t) + " 0"}});
+    }
+
+/*
+    // ENTER + UPDATE
+    // Affter merging the entered elemetns with the update selection, apply operations to both
+    shapes.enter().append("a-box")
+          .attr("class", "enter").merge(shapes)
+          .transition()
+          .attrs({
+            position: function(d, i) {
+              var y = i
+              var x = 4*i
+              var z = 4*i
+              return x + " " + y + " " + z
+            },
+            scale: function (d) {
+              return d
+            }
+          });
+  }*/
+
+  // The initial display
+  update(numbers)
+
+  d3.interval(function() {
+        /* numbers.push(random());*/
+
+        var sample = d3.shuffle(numbers).slice(0, Math.floor(Math.random()*15)).sort(function(a, b) {return a - b});
+        var text = sample.toString();
+        var textAttr = "text: " + text;
+        update(sample);
+
+
+        scene.select("#label").attr("text", textAttr);
+        //console.log(sample);
+
+        /*numbers.shift(); */
+    }, 3000);
+
+
+
+  /*.on("click", function(d,i) {
+    console.log("click", i,d)
+  })
+
+  function tick() {
+    // Push a new data point onto the back.
+    data.push(random());
+    // Redraw the line.
+    d3.select(this)
+        .attr("d", line)
+        .attr("transform", null);
+    // Slide it to the left.
+    d3.active(this)
+        .attr("transform", "translate(" + x(-1) + ",0)")
+      .transition()
+        .on("start", tick);
+    // Pop the old data point off the front.
+    data.shift();
+  }*/
+</script>

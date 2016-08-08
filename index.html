@@ -66,11 +66,8 @@
     // UPDATE
     // Update old elements as needed.
     shapes.attr("class", "update")
-        .attrs({
-          opacity: .9
-          })
         .transition(t)
-          .attr("color", "white")
+          .attr("color", "#D4D3D3")
           .attrTween("position", function(d, i){
               var j = this.getAttribute("position"),
                   h = map(d, 1, 25, .1, 5),

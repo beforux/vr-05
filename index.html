@@ -57,11 +57,10 @@
 
     // UPDATE
     // Update old elements as needed.
-    shapes.attr("class", "update")
-          .transition(t)
+    shapes  .transition(t)
           .attr("color", function(d, i) {
               var n = numbers.length;
-              return d3.interpolateViridis(map(i, 0, n, 0, 1));
+              return d3.interpolateViridis(map(i, 1, n, 0, 1));
             })
           .attrTween("position", function(d, i) {
               var j = this.getAttribute("position");
@@ -75,9 +74,7 @@
     // Create new elements as needed
     shapes.enter().append("a-box")
           .attrs({
-              depth: 1,
               height: function(d) {return map(d, 1, 25, .1, 3)},
-              width: 1,
               opacity: 0.01,
               color: "#262626"
             })
@@ -86,7 +83,7 @@
             .attrTween("position", function(d, i){
                 var u = spread * Math.ceil((i+1)/5);
                 var v = spread * (i % 5);
-                var h = map(d, 1, 25, .1, 3);
+                var h = this.getAttrbute("height");
                 return d3.interpolateObject({x:u, y:d, z:v},{x:u, y:h/2, z:v})
               });
     }

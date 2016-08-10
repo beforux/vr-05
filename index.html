@@ -33,7 +33,7 @@
 
   function update(data) {
     var t = d3.transition()
-        .duration(2000)
+        .duration(3000)
         .ease(d3.easeLinear);
 
     // DATA JOIN
@@ -97,7 +97,7 @@
         sample = d3.shuffle(numbers).slice(0, 1+Math.floor(Math.random()*24))
         //.sort(function(a, b) {return a - b});
         update(sample);
-    }, 6000);
+    }, 4000);
 
   function map(value, low1, high1, low2, high2) {
       return low2 + (high2 - low2) * (value - low1) / (high1 - low1);

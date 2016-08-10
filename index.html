@@ -59,7 +59,7 @@
     // UPDATE
     // Update old elements as needed.
     shapes  .transition(t)
-          .attr("opacity", 1)
+          .attr("opacity", .7)
           .attr("color", function(d, i) {
               var n = sample.length;
               return d3.interpolateViridis(map(i, 1, n, 0, 1));
